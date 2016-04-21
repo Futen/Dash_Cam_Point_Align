@@ -41,6 +41,6 @@ if __name__ == '__main__':
     print 'Total %d videos to download'%len(do_lst)
     #do_lst = Info.GetAllVideoID()
     #DownloadPano('000006')
-    pool = Pool(processes = 4)
+    pool = Pool(processes = 2)
     pool.map(DownloadPano, do_lst)
     SendEmail.SendEmail(Text = 'Downlaod finish')

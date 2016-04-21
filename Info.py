@@ -26,6 +26,8 @@ def GetVideoInfo(ID):
     frame_path = video_path + '/' + 'images'
     pano_path = video_path + '/' + 'pano'
     pano_download_path = pano_path + '/' + 'download'
+    frame_sift_path = pano_path + '/' + 'frame_sift'
+    pano_sift_path = pano_path + '/' + 'pano_sift'
     location = data[ID]
     
     reconstruct = 'no'
@@ -41,7 +43,8 @@ def GetVideoInfo(ID):
                  })
 
     output = dict({'video_path':video_path, 'frame_path':frame_path, 'pano_path':pano_path, 'location':location,
-                   'pano_download_path':pano_download_path, 'state':state
+                   'pano_download_path':pano_download_path, 'frame_sift_path':frame_sift_path, 'pano_sift_path':pano_sift_path,
+                   'state':state
                   })
     for i,key in enumerate(output):
         if key != 'location' and key != 'state':
