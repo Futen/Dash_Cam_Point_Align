@@ -6,6 +6,7 @@ import Info
 import subprocess
 import os
 import shutil
+import SendEmail
 from multiprocessing import Pool
 
 def WriteImageList(DIR, OUTPUT_NAME):
@@ -57,7 +58,7 @@ if __name__ == '__main__':
     #pool.map(ExtractSift, do_lst)
     for ID in do_lst:
         ExtractSift(ID)
-
+    SendEmail.SendEmail(Text = 'ExtractSift finish!!')
 
 
 
