@@ -1,0 +1,5 @@
+*.pyc
+Videos*/
+*.yaml
+*.txt
+buffer_*/
