@@ -5,6 +5,7 @@ sys.path.append('/media/external2/Dash_Cam_Point_Align')
 import Info
 import subprocess
 import os
+import time
 import shutil
 import SendEmail
 from multiprocessing import Pool
@@ -22,6 +23,7 @@ def GetSiftList(DIR, OUTPUT_NAME): #output_name is output_dir + name
         f.write(one + '\n')
     f.close()
 def ExtractSift(ID):
+    print ID
     info = Info.GetVideoInfo(ID)
     frame_path = info['frame_path']
     pano_download_path = info['pano_download_path']
@@ -43,7 +45,7 @@ def ExtractSift(ID):
     subprocess.call(command_2, shell=True)
 
     command_1 = 'mv %s/*.sift %s'%(frame_path, frame_sift_path)
-    command_2 = 'mv %s/*.sift %s'%(pano_path, pano_sift_path)
+    command_2 = 'mv %s/*.sift %s'%(pano_download_path, pano_sift_path)
     subprocess.call(command_1, shell=True)
     subprocess.call(command_2, shell=True)
 
@@ -58,6 +60,7 @@ if __name__ == '__main__':
     #pool.map(ExtractSift, do_lst)
     for ID in do_lst:
         ExtractSift(ID)
+        #exit()
     SendEmail.SendEmail(Text = 'ExtractSift finish!!')
 
 

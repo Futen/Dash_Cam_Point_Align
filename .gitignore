@@ -3,3 +3,4 @@ Videos*/
 *.yaml
 *.txt
 buffer_*/
+DownloadPano/CheckPano.py
