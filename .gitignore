@@ -4,3 +4,4 @@ Videos*/
 *.txt
 buffer_*/
 DownloadPano/CheckPano.py
+gmm_2step.npz

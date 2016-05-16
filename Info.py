@@ -33,13 +33,16 @@ def GetVideoInfo(ID):
     reconstruct = 'no'
     downloadpano = 'no'
     extractsift = 'no'
+    fisher = 'no'
     if os.path.isfile(video_path + '/reconstruction.json'):
         reconstruct = 'yes'
     if os.path.isfile(pano_path + '/pano_lst.txt'):
         downloadpano = 'yes'
     if os.path.isfile(pano_path + '/pano_sift_lst.txt') and os.path.isfile(pano_path + '/frame_sift_lst.txt'):
         extractsift = 'yes'
-    state = dict({'reconstruction':reconstruct, 'downloadpano':downloadpano, 'extractsift':extractsift
+    if os.path.isfile(pano_path + '/fisher_results.npy'):
+        fisher = 'yes' 
+    state = dict({'reconstruction':reconstruct, 'downloadpano':downloadpano, 'extractsift':extractsift, 'fisher':fisher
                  })
 
     output = dict({'video_path':video_path, 'frame_path':frame_path, 'pano_path':pano_path, 'location':location,
