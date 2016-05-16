@@ -57,6 +57,6 @@ def GetKnn(ID):
 if __name__ == '__main__':
     do_lst = Info.GetStateList(['extractsift', 'fisher'], ['yes', 'no'])
     #print do_lst
-    pool = Pool(processes = 8)
-    Pool.map(GetKnn, do_lst)
+    pool = Pool(processes = 4)
+    pool.map(GetKnn, do_lst)
     SendEmail.SendEmail(Text = 'Fisher Finish!!!')
