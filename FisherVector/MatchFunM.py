@@ -6,6 +6,7 @@ import ReadSift
 import Info
 import SendEmail
 import os
+import cv2
 import numpy as np
 from multiprocessing import Pool
 
@@ -25,6 +26,7 @@ def MatchFunM(ID):
             pano_short_name = pano_name.split('.')[0]
             kp_pairs = lib_SIFTmatch.flann_match('%s/%s'%(info['frame_sift_path'],frame_short_name),
                                                  '%s/%s'%(info['pano_sift_path'],pano_short_name))
+            #print kp_pairs
             try:
                 (mkp1, mkp2) = zip(*kp_pairs)
                 mkp1_pts = [ (x[0],x[1]) for x in mkp1 ]
