@@ -3,6 +3,7 @@ sys.path.append('/media/external2/Dash_Cam_Point_Align')
 import Info
 import numpy as np
 import cv2
+import SendEmail
 from multiprocessing import Pool
 
 def optical_center(shot):
@@ -61,7 +62,7 @@ def RunRANSAC(ID):
     print ID
     info = Info.GetVideoInfo(ID)
     [frame_lst, reconstruct_set, latlon_set] = GetPointData(info)
-    [M, model] = RANSAC_2D(reconstruct_set, latlon_set, iteration = 10000, tolerance = Info.Config.STEP_TEN_METER/2)
+    [M, model] = RANSAC_2D(reconstruct_set, latlon_set, iteration = 10000, tolerance = Info.Config.STEP_TEN_METER)
     if not M is None and not model is None:
         reconstruct = Info.ReadReconstructionData(info)['shots']
         f = open(Info.GetGCPFileName(info), 'w')
@@ -72,10 +73,11 @@ def RunRANSAC(ID):
             s = '%s\t%f\t%f\n'%(frame, point[0], point[1])
             f.write(s)
         f.close()
-        
-
 
 if __name__ == '__main__':
     do_lst = Info.GetStateList(['matchLst'], ['yes'])
-    RunRANSAC('000049')
+    pool = Pool(processes = 8)
+    #RunRANSAC('000089')
+    pool.map(RunRANSAC, do_lst)
+    SendEmail.SendEmail(Text = 'RANSAC finish!!!')
     #print do_lst
