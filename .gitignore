@@ -3,6 +3,9 @@ Videos*/
 *.yaml
 *.txt
 *.csv
+*.npy
+*.npz
+*.json
 buffer_*/
 DownloadPano/CheckPano.py
 gmm_2step.npz

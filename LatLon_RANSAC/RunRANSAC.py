@@ -3,6 +3,7 @@ sys.path.append('/media/external2/Dash_Cam_Point_Align')
 import Info
 import numpy as np
 import cv2
+import subprocess
 import SendEmail
 from multiprocessing import Pool
 
@@ -61,8 +62,14 @@ def RANSAC_2D(point_set1, point_set2, iteration, tolerance):
 def RunRANSAC(ID):
     print ID
     info = Info.GetVideoInfo(ID)
+    subprocess.call('rm %s'%(Info.GetGCPFileName(info)), shell=True)
     [frame_lst, reconstruct_set, latlon_set] = GetPointData(info)
-    [M, model] = RANSAC_2D(reconstruct_set, latlon_set, iteration = 10000, tolerance = Info.Config.STEP_TEN_METER)
+    if len(reconstruct_set) == 0 or len(latlon_set) == 0:
+        return
+    try:
+        [M, model] = RANSAC_2D(reconstruct_set, latlon_set, iteration = 10000, tolerance = Info.Config.STEP_TEN_METER)
+    except:
+        return
     if not M is None and not model is None:
         reconstruct = Info.ReadReconstructionData(info)['shots']
         f = open(Info.GetGCPFileName(info), 'w')
