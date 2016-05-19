@@ -2,6 +2,7 @@ import sys
 import os
 import subprocess
 import Config
+import json
 
 ID_lst = [] # 000001.....
 CutFrame_lst = [] #1478...
@@ -35,6 +36,7 @@ def GetVideoInfo(ID):
     extractsift = 'no'
     fisher = 'no'
     matchFunM = 'no'
+    matchLst = 'no'
     if os.path.isfile(video_path + '/reconstruction.json'):
         reconstruct = 'yes'
     if os.path.isfile(pano_path + '/pano_lst.txt'):
@@ -45,7 +47,10 @@ def GetVideoInfo(ID):
         fisher = 'yes'
     if os.path.isfile(pano_path + '/results_fundM.npy'):
         matchFunM = 'yes'
-    state = dict({'reconstruction':reconstruct, 'downloadpano':downloadpano, 'extractsift':extractsift, 'fisher':fisher, 'matchFunM':matchFunM
+    if os.path.isfile(pano_path + '/match_lst.txt'):
+        matchLst = 'yes'
+    state = dict({'reconstruction':reconstruct, 'downloadpano':downloadpano, 'extractsift':extractsift, 'fisher':fisher, 'matchFunM':matchFunM,
+        'matchLst':matchLst
                  })
 
     output = dict({'video_path':video_path, 'frame_path':frame_path, 'pano_path':pano_path, 'location':location,
@@ -77,6 +82,17 @@ def GetAllVideoLoc():
     return Loc_lst
 def GetAllVideoName():
     return Name_lst
+def GetMatchFunMFileName(Info):
+    return Info['pano_path'] + '/results_fundM.npy'
+def GetFisherResultFileName(Info):
+    return Info['pano_path'] + '/fisher_results.npy'
+def GetMatchLstFileName(Info):
+    return Info['pano_path'] + '/match_lst.txt'
+def ReadReconstructionData(info):
+    f = open(info['video_path'] + '/reconstruction.json', 'r')
+    data = json.load(f)[0]
+    f.close()
+    return data
 def ArgumentComprass(data1, data2):
     if len(data1) != len(data2):
         print 'ArgCom in Info.py error'
