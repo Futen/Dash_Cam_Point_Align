@@ -17,7 +17,7 @@ data = np.load('result.npy')
 #data[1] = data[1][np.abs(data[1]) <= 3000]
 #data2 = data[1]
 
-M, align_data = RANSAC.RANSAC_myMethod(data[0], data[1], 10000, 3)
+M, align_data = RANSAC.RANSAC_myMethod(data[0], data[1], 10000, 5)
 print M
 #ratio, align_data, M = RANSAC.Super(data[0], data[1], 0)
 

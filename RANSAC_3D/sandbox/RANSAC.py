@@ -114,7 +114,7 @@ def RANSAC_myMethod(point_set_src, point_set_dst, iteration, tolerance):
     best_M = None
     best_model = None
     for index in range(0, iteration):
-        sample_index = np.random.choice(range(0, point_count), 3)
+        sample_index = np.random.choice(range(0, point_count), 3, replace=False)
         src = point_set_src[sample_index, :]
         dst = point_set_dst[sample_index, :]
         M = GetTransformation.GetTransformation(src, dst)
@@ -126,6 +126,7 @@ def RANSAC_myMethod(point_set_src, point_set_dst, iteration, tolerance):
             best_model = new_point_set
             best_M = M
             best_inlier = inlier
+    print 'best inlier: %d'%best_inlier
     return best_M, best_model
 
 if __name__ == '__main__':
