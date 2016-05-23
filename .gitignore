@@ -8,4 +8,5 @@ Videos*/
 *.json
 buffer_*/
 DownloadPano/CheckPano.py
+*.swp
 gmm_2step.npz
