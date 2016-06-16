@@ -12,3 +12,4 @@ sandbox/
 DownloadPano/CheckPano.py
 *.swp
 gmm_2step.npz
+Match_result/
