@@ -13,3 +13,6 @@ DownloadPano/CheckPano.py
 *.swp
 gmm_2step.npz
 Match_result/
+DashCam_WebGL-master.zip
+DashCam_WebGL-master/
+RANSAC_3D/TestData/
