@@ -28,7 +28,8 @@ def GetVideoInfo(ID):
     ###################################
     # Just  change this line will chage mage type
     #match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/deep_match_result'
-    match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/hog_match_result'
+    #match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/hog_match_result'
+    match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/dsift_match_result'
     ##############################
     frame_path = video_path + '/' + 'images'
     pano_path = video_path + '/' + 'pano'
