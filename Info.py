@@ -27,9 +27,9 @@ def GetVideoInfo(ID):
     video_path = Config.VIDEO_ROOT_PATH + '/' + ID
     ###################################
     # Just  change this line will chage mage type
-    #match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/deep_match_result'
+    match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/deep_match_result'
     #match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/hog_match_result'
-    match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/dsift_match_result'
+    #match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/dsift_match_result'
     ##############################
     frame_path = video_path + '/' + 'images'
     pano_path = video_path + '/' + 'pano'
@@ -122,7 +122,8 @@ def GetMatchResultPointFileName(info): # get the match point(3D) in google stree
 def GetMatchResultExtractPointFileName(info): # the point to do 3D ransac
     return info['match_path'] + '/point_set.npy'
 def Get3DRansacFileName(info):
-    return info['match_path'] + '/ransac_3D_result.json'
+    #return info['match_path'] + '/ransac_3D_result.json' # this is my method
+    return info['match_path'] + '/affine_ransac_3D_result.json' # this is full affine
 def GetReconstructionFileName(info):
     return info['video_path'] + '/reconstruction.json'
 def ReadReconstructionData(info):
