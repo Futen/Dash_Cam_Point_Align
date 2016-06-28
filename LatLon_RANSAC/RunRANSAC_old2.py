@@ -106,7 +106,7 @@ def RunRANSAC(ID):
 if __name__ == '__main__':
     do_lst = Info.GetStateList(['matchLst'], ['yes'])
     #pool = Pool(processes = 8)
-    RunRANSAC('000209')
+    RunRANSAC('000067')
     #pool.map(RunRANSAC, do_lst)
     #SendEmail.SendEmail(Text = 'RANSAC finish!!!')
     #print do_lst

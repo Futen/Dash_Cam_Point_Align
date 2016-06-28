@@ -5,18 +5,12 @@ import numpy as np
 import cv2
 import subprocess
 import SendEmail
+import Transformation_2D as T2D
 from multiprocessing import Pool
-import matplotlib.pyplot as plt
 def optical_center(shot):
     R = cv2.Rodrigues(np.array(shot['rotation'], dtype=float))[0]
     t = shot['translation']
-    a = -R.T.dot(t)
-    a[0] *= -1
-    #a[0] *= -1
-    #t = a[0]
-    #a[0] = a[1]  
-    #a[1] = -t
-    return a
+    return -R.T.dot(t)
 
 def GetPointData(info):
     reconstruction = Info.ReadReconstructionData(info)['shots']
@@ -40,37 +34,33 @@ def GetPointData(info):
     f.close()
     reconstruction_data = np.array(reconstruction_data, dtype=np.float32)
     latlon_data =  np.array(latlon_data, dtype=np.float32)
-
-    plt.figure()
-    plt.subplot('111')
-    plt.plot(reconstruction_data[:,0], reconstruction_data[:,1], 'o')
-    plt.show()
-
     return [frame_lst, reconstruction_data, latlon_data]
 
 def RANSAC_2D(point_set1, point_set2, iteration, tolerance):
+    #print point_set1.shape
+    #print point_set2.shape
     point_count = point_set1.shape[0]
     best_M = None
     best_inlier = 0
     best_model = None
     for i in range(0, iteration):
         sample_index = np.random.choice(range(0, point_count), 3, replace = False)
-        first_set = np.array([point_set1[sample_index]], dtype = np.float32)
-        second_set = np.array([point_set2[sample_index]], dtype = np.float32)
-        #print first_set.shape
-        transformation = cv2.estimateRigidTransform(first_set, second_set, fullAffine = False)
+        first_set = point_set1[sample_index]
+        second_set = point_set2[sample_index]
+        #print first_set
+        #print second_set
+        transformation = T2D.GetTransformation(first_set, second_set)
+        #print transformation
         if transformation is None:
             continue
-        #transformation[0, 1] *= -1
-        #transformation[1, 0] *= -1
-
+        #transformation[1,2] *= -1
+        new_point_set1 = [np.dot(transformation, np.array([x[0], x[1], 1]).T) for x in point_set1]
         print '******'
-        print first_set
+        print np.asarray([np.dot(transformation, np.array([x[0], x[1], 1]).T) for x in first_set])
         print second_set
         print '******'
-        #transformation[1,2] *= -1
-        new_point_set1 = np.asarray([np.dot(transformation, np.transpose(np.array([x[0], x[1], 1], dtype=np.float32))) for x in point_set1], dtype=np.float32)
         distance_matrix = np.linalg.norm(new_point_set1 - point_set2, axis = 1)
+        #print distance_matrix
         inlier = np.sum(distance_matrix <= tolerance)
         #print inlier
         if inlier > best_inlier:
@@ -87,11 +77,11 @@ def RunRANSAC(ID):
     [frame_lst, reconstruct_set, latlon_set] = GetPointData(info)
     if len(reconstruct_set) == 0 or len(latlon_set) == 0:
         return
-    try:
-        [M, model] = RANSAC_2D(reconstruct_set, latlon_set, iteration = 5000, tolerance = Info.Config.STEP_TEN_METER)
-        print M
-    except:
-        return
+    #try:
+    [M, model] = RANSAC_2D(reconstruct_set, latlon_set, iteration = 5000, tolerance = Info.Config.STEP_TEN_METER/5)
+    print M
+    #except:
+    #    return
     if not M is None and not model is None:
         reconstruct = Info.ReadReconstructionData(info)['shots']
         f = open(Info.GetGCPFileName(info), 'w')
@@ -106,7 +96,7 @@ def RunRANSAC(ID):
 if __name__ == '__main__':
     do_lst = Info.GetStateList(['matchLst'], ['yes'])
     #pool = Pool(processes = 8)
-    RunRANSAC('000209')
+    RunRANSAC('001234')
     #pool.map(RunRANSAC, do_lst)
     #SendEmail.SendEmail(Text = 'RANSAC finish!!!')
     #print do_lst

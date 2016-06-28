@@ -6,16 +6,12 @@ import cv2
 import subprocess
 import SendEmail
 from multiprocessing import Pool
-import matplotlib.pyplot as plt
+
 def optical_center(shot):
     R = cv2.Rodrigues(np.array(shot['rotation'], dtype=float))[0]
     t = shot['translation']
     a = -R.T.dot(t)
-    a[0] *= -1
-    #a[0] *= -1
-    #t = a[0]
-    #a[0] = a[1]  
-    #a[1] = -t
+    #a[1] *= -1
     return a
 
 def GetPointData(info):
@@ -40,12 +36,6 @@ def GetPointData(info):
     f.close()
     reconstruction_data = np.array(reconstruction_data, dtype=np.float32)
     latlon_data =  np.array(latlon_data, dtype=np.float32)
-
-    plt.figure()
-    plt.subplot('111')
-    plt.plot(reconstruction_data[:,0], reconstruction_data[:,1], 'o')
-    plt.show()
-
     return [frame_lst, reconstruction_data, latlon_data]
 
 def RANSAC_2D(point_set1, point_set2, iteration, tolerance):
@@ -61,9 +51,6 @@ def RANSAC_2D(point_set1, point_set2, iteration, tolerance):
         transformation = cv2.estimateRigidTransform(first_set, second_set, fullAffine = False)
         if transformation is None:
             continue
-        #transformation[0, 1] *= -1
-        #transformation[1, 0] *= -1
-
         print '******'
         print first_set
         print second_set
@@ -88,7 +75,7 @@ def RunRANSAC(ID):
     if len(reconstruct_set) == 0 or len(latlon_set) == 0:
         return
     try:
-        [M, model] = RANSAC_2D(reconstruct_set, latlon_set, iteration = 5000, tolerance = Info.Config.STEP_TEN_METER)
+        [M, model] = RANSAC_2D(reconstruct_set, latlon_set, iteration = 1000, tolerance = Info.Config.STEP_TEN_METER)
         print M
     except:
         return
@@ -106,7 +93,7 @@ def RunRANSAC(ID):
 if __name__ == '__main__':
     do_lst = Info.GetStateList(['matchLst'], ['yes'])
     #pool = Pool(processes = 8)
-    RunRANSAC('000209')
+    RunRANSAC('001234')
     #pool.map(RunRANSAC, do_lst)
     #SendEmail.SendEmail(Text = 'RANSAC finish!!!')
     #print do_lst

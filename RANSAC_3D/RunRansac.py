@@ -24,9 +24,12 @@ def RunRansac(ID):
     #data2 = data[1]
     #data[0] = data[0][np.abs(data[1]) <= 3000] 
     #data[1] = data[1][np.abs(data[1]) <= 3000]
-    #data2 = data[1]
-    M, align_data = RANSAC.RANSAC_myMethod(data[0], data[1], 10000, 5)
-    #print M
+    #data2 = data[1i]
+    try:
+        M, align_data = RANSAC.RANSAC_myMethod(data[0], data[1], 10000, 5)
+    except:
+        return
+    print M
     #print np.reshape(M, [12])
     M = np.reshape(M, [12]).astype(float)
     gcp = Info.ReadGCPData(info)
@@ -45,11 +48,16 @@ def RunRansac(ID):
     f = open(f_name, 'w')
     f.write(json.dumps(data, indent=4))
     f.close()
+    print '%s ransac finish'%ID
 
 
 if __name__ == '__main__':
     do_lst = Info.GetStateList(['ransac_2D','match_result'], ['yes', 'yes'])
     print do_lst
     print len(do_lst)
-    RunExtract(do_lst[1])
-    RunRansac(do_lst[1])
+    #pool= Pool(processes = 8)
+    #pool.map(RPE.RansacPointExtract, do_lst)
+    #pool.map(RunRansac, do_lst)
+    #SendEmail.SendEmail()
+    RunExtract('001234')
+    RunRansac('001234')
