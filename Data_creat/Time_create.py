@@ -51,4 +51,7 @@ if __name__ == '__main__':
     #print arg
     #GetVideoTime(arg[0])
     for one in arg:
-        GetVideoTime(one)
+        try:
+            GetVideoTime(one)
+        except:
+            pass

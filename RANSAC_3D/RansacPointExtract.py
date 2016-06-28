@@ -22,11 +22,11 @@ def RansacPointExtract(ID):
     reconstruct_data_key_lst = reconstruct_data.keys() #####
 
     match_data = np.load(Info.GetMatchResultFileName(info)).item()
-    print match_data.keys()
+    #print match_data.keys()
     f = open(Info.GetMatchResultPointFileName(info), 'r')
     pano_data = json.load(f)
     f.close()
-    print pano_data.keys()
+    #print pano_data.keys()
 
     new_pano_data = {}
     for index, key in enumerate(pano_data):

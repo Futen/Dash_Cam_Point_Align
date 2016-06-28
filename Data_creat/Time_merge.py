@@ -32,6 +32,6 @@ if __name__ == '__main__':
     #Merge('000049')
     do_lst = Info.GetStateList(['ransac_3D'], ['yes'])
     print (do_lst)
-    #pool = Pool(processes = 4)
-    #pool.map(Merge, do_lst)
+    pool = Pool(processes = 4)
+    pool.map(Merge, do_lst)
     

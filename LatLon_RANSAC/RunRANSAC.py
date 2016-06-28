@@ -41,10 +41,10 @@ def GetPointData(info):
     reconstruction_data = np.array(reconstruction_data, dtype=np.float32)
     latlon_data =  np.array(latlon_data, dtype=np.float32)
 
-    plt.figure()
-    plt.subplot('111')
-    plt.plot(reconstruction_data[:,0], reconstruction_data[:,1], 'o')
-    plt.show()
+    #plt.figure()
+    #plt.subplot('111')
+    #plt.plot(reconstruction_data[:,0], reconstruction_data[:,1], 'o')
+    #plt.show()
 
     return [frame_lst, reconstruction_data, latlon_data]
 
@@ -106,7 +106,7 @@ def RunRANSAC(ID):
 if __name__ == '__main__':
     do_lst = Info.GetStateList(['matchLst'], ['yes'])
     #pool = Pool(processes = 8)
-    RunRANSAC('000209')
+    RunRANSAC('001234')
     #pool.map(RunRANSAC, do_lst)
     #SendEmail.SendEmail(Text = 'RANSAC finish!!!')
     #print do_lst
