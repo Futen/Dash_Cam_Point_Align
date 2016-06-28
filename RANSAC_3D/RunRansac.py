@@ -25,14 +25,18 @@ def RunRansac(ID):
     #data[0] = data[0][np.abs(data[1]) <= 3000] 
     #data[1] = data[1][np.abs(data[1]) <= 3000]
     #data2 = data[1i]
-    #try:
-    M, align_data = RANSAC.RANSAC_affine(data[0], data[1], 10000, 5)
-    return
-    #except:
-    #    return
+    try:
+        M, align_data = RANSAC.RANSAC_affine(data[0], data[1], 10000, 5)
+    except:
+        return
+    if M is None:
+        return
     print M
     #print np.reshape(M, [12])
-    M = np.reshape(M, [12]).astype(float)
+    try:
+        M = np.reshape(M, [12]).astype(float)
+    except:
+        return
     gcp = Info.ReadGCPData(info)
     data = Info.ReadReconstructionData(info)
     trajectory = {}
@@ -56,9 +60,11 @@ if __name__ == '__main__':
     do_lst = Info.GetStateList(['ransac_2D','match_result'], ['yes', 'yes'])
     print do_lst
     print len(do_lst)
-    #pool= Pool(processes = 8)
+    pool= Pool(processes = 8)
     #pool.map(RPE.RansacPointExtract, do_lst)
-    #pool.map(RunRansac, do_lst)
-    #SendEmail.SendEmail()
-    #RunExtract('001234')
-    RunRansac('001234')
+    #for one in do_lst:
+    #RunRansac(one)
+    pool.map(RunRansac, do_lst)
+    SendEmail.SendEmail()
+    #RunExtract('000791')
+    #RunRansac('000363')

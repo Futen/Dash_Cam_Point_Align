@@ -46,7 +46,12 @@ def RANSAC_affine(point_set_src, point_set_dst, iteration, tolerance):
         dst = point_set_dst[sample_index, :]
         #print src
         #print dst
-        M = RigidTransform(src, dst, fullAffine = True)
+        try:
+            M = RigidTransform(src, dst, fullAffine = False)
+        except:
+            continue
+        if M is None:
+            return 
         #M = GetTransformation.GetTransformation(src, dst)
         new_point_set = np.asarray([np.dot(M, np.array([x[0], x[1], x[2], 1], dtype=np.float32).T) for x in point_set_src])
         distance_matrix = np.linalg.norm(new_point_set - point_set_dst, axis=1)

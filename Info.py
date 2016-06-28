@@ -48,6 +48,7 @@ def GetVideoInfo(ID):
     match_result = 'no'
     match_result_extract = 'no'
     ransac_3D = 'no'
+    lat_lon = 'no'
     if os.path.isfile(video_path + '/reconstruction.json'):
         reconstruct = 'yes'
     if os.path.isfile(pano_path + '/pano_lst.txt'):
@@ -68,9 +69,12 @@ def GetVideoInfo(ID):
         match_result_extract = 'yes'
     if os.path.isfile(match_path + '/ransac_3D_result.json'):
         ransac_3D = 'yes'
+    if os.path.isfile(match_path + '/lat_lon_result.json'):
+        lat_lon = 'yes'
     state = dict({'reconstruction':reconstruct, 'downloadpano':downloadpano, 'extractsift':extractsift, 
         'fisher':fisher, 'matchFunM':matchFunM, 'matchLst':matchLst, 'ransac_2D':ransac_2D, 
-        'match_result':match_result, 'match_result_extract':match_result_extract, 'ransac_3D':ransac_3D
+        'match_result':match_result, 'match_result_extract':match_result_extract, 'ransac_3D':ransac_3D,
+        'lat_lon':lat_lon
                  })
 
     output = dict({'video_path':video_path, 'frame_path':frame_path, 'pano_path':pano_path, 'location':location,
@@ -123,7 +127,8 @@ def GetMatchResultExtractPointFileName(info): # the point to do 3D ransac
     return info['match_path'] + '/point_set.npy'
 def Get3DRansacFileName(info):
     #return info['match_path'] + '/ransac_3D_result.json' # this is my method
-    return info['match_path'] + '/affine_ransac_3D_result.json' # this is full affine
+    #return info['match_path'] + '/affine_ransac_3D_result.json' # this is full affine
+    return info['match_path'] + '/rigid_ransac_3D_result.json'
 def GetReconstructionFileName(info):
     return info['video_path'] + '/reconstruction.json'
 def ReadReconstructionData(info):
