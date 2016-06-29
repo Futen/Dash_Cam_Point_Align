@@ -126,9 +126,9 @@ def GetMatchResultPointFileName(info): # get the match point(3D) in google stree
 def GetMatchResultExtractPointFileName(info): # the point to do 3D ransac
     return info['match_path'] + '/point_set.npy'
 def Get3DRansacFileName(info):
-    #return info['match_path'] + '/ransac_3D_result.json' # this is my method
+    return info['match_path'] + '/ransac_3D_result.json' # this is my method
     #return info['match_path'] + '/affine_ransac_3D_result.json' # this is full affine
-    return info['match_path'] + '/rigid_ransac_3D_result.json'
+    #return info['match_path'] + '/rigid_ransac_3D_result.json'
 def GetReconstructionFileName(info):
     return info['video_path'] + '/reconstruction.json'
 def ReadReconstructionData(info):

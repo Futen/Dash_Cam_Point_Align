@@ -51,7 +51,13 @@ if __name__ == '__main__':
     #print arg
     #GetVideoTime(arg[0])
     for one in arg:
+        if one[0][0] == '000067':
+            print one
+            GetVideoTime(one)
+    '''
+    for one in arg:
         try:
             GetVideoTime(one)
         except:
             pass
+    '''

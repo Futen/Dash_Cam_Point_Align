@@ -60,11 +60,11 @@ if __name__ == '__main__':
     do_lst = Info.GetStateList(['ransac_2D','match_result'], ['yes', 'yes'])
     print do_lst
     print len(do_lst)
-    pool= Pool(processes = 8)
+    #pool= Pool(processes = 8)
     #pool.map(RPE.RansacPointExtract, do_lst)
     #for one in do_lst:
     #RunRansac(one)
-    pool.map(RunRansac, do_lst)
-    SendEmail.SendEmail()
-    #RunExtract('000791')
-    #RunRansac('000363')
+    #pool.map(RunRansac, do_lst)
+    #SendEmail.SendEmail()
+    RunExtract('000067')
+    RunRansac('000067')
