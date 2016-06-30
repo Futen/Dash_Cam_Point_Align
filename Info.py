@@ -30,6 +30,9 @@ def GetVideoInfo(ID):
     match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/deep_match_result'
     #match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/hog_match_result'
     #match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/dsift_match_result'
+    deep_match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/deep_match_result'
+    hog_match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/hog_match_result'
+    dsift_match_path = Config.ROOT_PATH + '/' + 'Match_result_old/' + ID + '/dsift_match_result'
     ##############################
     frame_path = video_path + '/' + 'images'
     pano_path = video_path + '/' + 'pano'
@@ -79,7 +82,8 @@ def GetVideoInfo(ID):
 
     output = dict({'video_path':video_path, 'frame_path':frame_path, 'pano_path':pano_path, 'location':location,
                    'pano_download_path':pano_download_path, 'frame_sift_path':frame_sift_path, 
-                   'pano_sift_path':pano_sift_path, 'match_path':match_path, 'ID':ID,
+                   'pano_sift_path':pano_sift_path, 'match_path':match_path, 'ID':ID, 'deep_match_path':deep_match_path,
+                   'hog_match_path':hog_match_path, 'dsift_match_path':dsift_match_path,
                    'state':state
                   })
     '''

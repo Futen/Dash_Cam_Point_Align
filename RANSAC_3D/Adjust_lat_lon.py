@@ -49,7 +49,7 @@ if __name__ == '__main__':
     do_lst = Info.GetStateList(['lat_lon'], ['yes'])
     #print do_lst
     #print len(do_lst)
-    #Merge('000034')
-    for one in do_lst:
-        Merge(one)
-    SendEmail.SendEmail()
+    Merge('000067')
+    #for one in do_lst:
+    #    Merge(one)
+    #SendEmail.SendEmail()

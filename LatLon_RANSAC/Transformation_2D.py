@@ -58,7 +58,6 @@ def Mirror(M, X, mid_num, mid_num2): # [R|T] x X
     #    ori_point[1] -= 2 * np.abs(ori_point[1] - mid_num2)
     #else:
     #    ori_point[1] += 2 * np.abs(ori_point[1] - mid_num2)
-
     return np.dot(R, ori_point)
     
 if __name__ == '__main__':
