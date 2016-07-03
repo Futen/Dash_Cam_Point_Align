@@ -41,9 +41,12 @@ def Plot():
         data = LoadFile(f)
         for key in data:
             our_dis.append(data[key])
+    number_of_point = len(our_dis)
     our_dis = np.array(our_dis, dtype = np.float32)
     print 'Ourmethod Max val : %f'%np.max(our_dis)
     print 'Ourmethod Min val : %f'%np.min(our_dis)
+    print 'Ourmethod Mean val : %f'%np.mean(our_dis)
+    print 'Ourmethod Standard Deviation : %f'%np.std(our_dis)
     top_bound = np.ceil(np.max(our_dis))
     #print top_bound
     histogram = np.zeros([int(top_bound)+1], dtype=np.float32)
@@ -65,6 +68,8 @@ def Plot():
     affine_dis = np.array(affine_dis, dtype = np.float32)
     print 'Affine Max val : %f'%np.max(affine_dis)
     print 'Affine Min val : %f'%np.min(affine_dis)
+    print 'Affine Mean val : %f'%np.mean(affine_dis)
+    print 'Affine Standard Deviation : %f'%np.std(affine_dis)
     top_bound = np.ceil(np.max(affine_dis))
     #print top_bound
     histogram = np.zeros([int(top_bound)+1], dtype=np.float32)
@@ -86,6 +91,8 @@ def Plot():
     rigid_dis = np.array(rigid_dis, dtype = np.float32)
     print 'Rigid Max val : %f'%np.max(rigid_dis)
     print 'Rigid Min val : %f'%np.min(rigid_dis)
+    print 'Rigid Mean val : %f'%np.mean(rigid_dis)
+    print 'Rigid Standard Deviation : %f'%np.std(rigid_dis)
     top_bound = np.ceil(np.max(rigid_dis))
     #print top_bound
     histogram = np.zeros([int(top_bound)+1], dtype=np.float32)
@@ -96,14 +103,41 @@ def Plot():
     #print histogram
     rigid_Y = histogram
     rigid_X = np.arange(0, top_bound+1)
+    
+    our_max = np.max(our_Y)
+    affine_max = np.max(affine_Y)
+    rigid_max = np.max(rigid_Y)
+    all_max = np.max([our_max, affine_max, rigid_max])
+    top_bound = int(np.ceil(all_max))
+    X_axis = np.arange(0, top_bound + 1)
 
-    plt.subplot('111')
-    plt.plot(our_X, our_Y, 'r', color = 'r', label = 'ourmethod')
-    plt.plot(affine_X, affine_Y, 'r', color = 'g', label = 'affine')
-    plt.plot(rigid_X, rigid_Y, 'r', color = 'b', label = 'rigid')
+    tmp = np.zeros([top_bound+1], dtype = np.float32)
+    tmp[:] = our_max
+    tmp[0:our_Y.size] = our_Y
+    our_Y = tmp / number_of_point * 100
+    tmp = np.zeros([top_bound+1], dtype = np.float32)
+    tmp[:] = affine_max
+    tmp[0:affine_Y.size] = affine_Y
+    affine_Y = tmp / number_of_point * 100
+    tmp = np.zeros([top_bound+1], dtype = np.float32)
+    tmp[:] = rigid_max
+    tmp[0:rigid_Y.size] = rigid_Y
+    rigid_Y = tmp / number_of_point * 100
+    
+    X_axis = X_axis[1:]
+    our_Y = our_Y[1:]
+    affine_Y = affine_Y[1:]
+    rigid_Y = rigid_Y[1:]
+    fig = plt.subplot('111')
+    plt.plot(X_axis, our_Y, 'r', color = 'r', linewidth = 4, label = 'ourmethod')
+    plt.plot(X_axis, affine_Y, 'r', color = 'g', linewidth = 4, label = 'affine')
+    plt.plot(X_axis, rigid_Y, 'r', color = 'b', linewidth = 4, label = 'rigid')
+    plt.xscale('log')
+    #plt.xlim([1, 300])
     plt.xlabel('within distance(m)')
-    plt.ylabel('number of point')
-    plt.legend()
+    plt.ylabel('persent(%)')
+    plt.legend(loc = 'right')
+    plt.savefig('ransac_transform.jpg')
     plt.show()
 
 
